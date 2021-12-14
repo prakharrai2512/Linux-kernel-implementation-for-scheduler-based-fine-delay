@@ -7369,12 +7369,12 @@ simple:
 			tempt = ktime_get();
 			//if((tempt->tv64.nsec - (temp->acdc.timt)->tv_nsec) < temp->acdc.delay * 1000 ){
 			if(ktime_to_ns(ktime_sub(tempt, tempt2)) < temp->acdc.delay * 1000){
-				struct sched_entity *LL = __pick_next_entity(left);
+				/*struct sched_entity *LL = __pick_next_entity(left);
 				struct task_struct *tempL;
 				tempL = task_of(LL);
 				dequeue_task_fair(rq,temp,1);
 				temp->se.vruntime = tempL->se.vruntime + 100;
-				enqueue_task_fair(rq,temp,1);
+				enqueue_task_fair(rq,temp,1);*/
 				printk(KERN_INFO "\nDelayed JSR\n");
 			}
 		}
