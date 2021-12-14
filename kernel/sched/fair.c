@@ -85,7 +85,7 @@ static unsigned int normalized_sysctl_sched_wakeup_granularity	= 1000000UL;
 
 const_debug unsigned int sysctl_sched_migration_cost	= 500000UL;
 
-int opengenius = 0L;
+unsigned int opengenius = 0L;
 
 int sched_thermal_decay_shift;
 static int __init setup_sched_thermal_decay_shift(char *str)
@@ -7355,12 +7355,12 @@ simple:
 		put_prev_task(rq, prev);
 
 	do{ 
-		struct sched_entity *left = __pick_first_entity(cfs_rq);
+		/*struct sched_entity *left = __pick_first_entity(cfs_rq);
 		struct task_struct *temp;
-		temp = task_of(left);
+		temp = task_of(left);*/
 		//printk(KERN_INFO "Initial PID %d\n",temp->pid);
 	
-		if(temp->custom_additional_latency_enabled == 100){
+		/*if(temp->custom_additional_latency_enabled == 100){
 			printk(KERN_INFO "\n In this JSR\n");
 			if(temp->acdc.init != 100){
 				temp->acdc.init = 100;
@@ -7382,7 +7382,7 @@ simple:
 				enqueue_task_fair(rq,temp,0);
 				printk(KERN_INFO "\nDelayed JSR at %lld nanoseconds\n",tempt);
 			}
-		}
+		}*/
 		/*u64 tempt;
 		tempt = ktime_get_ns();
 		printk(KERN_INFO "\nDelayed JSR at %lld nanoseconds\n",tempt);*/
