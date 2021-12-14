@@ -39,6 +39,7 @@
 #include <linux/ktime.h>
  
 
+
 /* task_struct member predeclarations (sorted alphabetically): */
 struct audit_context;
 struct backing_dev_info;
@@ -73,7 +74,6 @@ struct task_group;
 
 struct additional_custom_delay_control;
 
-int chljabhaipls;
 
 
 /*

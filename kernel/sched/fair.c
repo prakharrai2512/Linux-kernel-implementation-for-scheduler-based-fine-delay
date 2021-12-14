@@ -22,8 +22,6 @@
  */
 #include "sched.h"
 
-extern chljabhaipls;
-chljabhaipls = 0;
 
  /*
  * Targeted preemption latency for CPU-bound tasks:
@@ -86,6 +84,8 @@ unsigned int sysctl_sched_wakeup_granularity			= 1000000UL;
 static unsigned int normalized_sysctl_sched_wakeup_granularity	= 1000000UL;
 
 const_debug unsigned int sysctl_sched_migration_cost	= 500000UL;
+
+int opengenius = 0L;
 
 int sched_thermal_decay_shift;
 static int __init setup_sched_thermal_decay_shift(char *str)
@@ -7355,40 +7355,38 @@ simple:
 		put_prev_task(rq, prev);
 
 	do{ 
-		if(chljabhaipls == 1){
-			struct sched_entity *left = __pick_first_entity(cfs_rq);
-			struct task_struct *temp;
-			temp = task_of(left);
-			printk(KERN_INFO "Initial PID %d\n",temp->pid);
-		
-			if(temp->custom_additional_latency_enabled == 1){
-				printk(KERN_INFO "\n In this JSR\n");
-				if(temp->acdc.init != 1){
-					temp->acdc.init = 1;
-					printk(KERN_INFO "\n Intial mf'ize JSR\n");
-					//clock_gettime( CLOCK_MONOTONIC, (temp->acdc.timt));
-					(temp->acdc.timt) = ktime_get_ns();
-				}
-				u64 tempt;
-				u64 tempt2 = (temp->acdc.timt); 
-				//clock_gettime(CLOCK_MONOTONIC,tempt);
-				tempt = ktime_get_ns();
-				//if((tempt->tv64.nsec - (temp->acdc.timt)->tv_nsec) < temp->acdc.delay * 1000 ){
-				if(tempt - tempt2 < temp->acdc.delay * 1000){
-					struct sched_entity *LL = __pick_next_entity(left);
-					struct task_struct *tempL;
-					tempL = task_of(LL);
-					dequeue_task_fair(rq,temp,0);
-					temp->se.vruntime = tempL->se.vruntime + 1000;
-					enqueue_task_fair(rq,temp,0);
-					printk(KERN_INFO "\nDelayed JSR at %lld nanoseconds\n",tempt);
-				}
+		struct sched_entity *left = __pick_first_entity(cfs_rq);
+		struct task_struct *temp;
+		temp = task_of(left);
+		//printk(KERN_INFO "Initial PID %d\n",temp->pid);
+	
+		if(temp->custom_additional_latency_enabled == 100){
+			printk(KERN_INFO "\n In this JSR\n");
+			if(temp->acdc.init != 100){
+				temp->acdc.init = 100;
+				printk(KERN_INFO "\n Intial mf'ize JSR\n");
+				//clock_gettime( CLOCK_MONOTONIC, (temp->acdc.timt));
+				(temp->acdc.timt) = ktime_get_ns();
 			}
-		} 
+			u64 tempt;
+			u64 tempt2 = (temp->acdc.timt); 
+			//clock_gettime(CLOCK_MONOTONIC,tempt);
+			tempt = ktime_get_ns();
+			//if((tempt->tv64.nsec - (temp->acdc.timt)->tv_nsec) < temp->acdc.delay * 1000 ){
+			if(tempt - tempt2 < temp->acdc.delay * 1000){
+				struct sched_entity *LL = __pick_next_entity(left);
+				struct task_struct *tempL;
+				tempL = task_of(LL);
+				dequeue_task_fair(rq,temp,0);
+				temp->se.vruntime = tempL->se.vruntime + 1000;
+				enqueue_task_fair(rq,temp,0);
+				printk(KERN_INFO "\nDelayed JSR at %lld nanoseconds\n",tempt);
+			}
+		}
 		/*u64 tempt;
 		tempt = ktime_get_ns();
 		printk(KERN_INFO "\nDelayed JSR at %lld nanoseconds\n",tempt);*/
-		printk(KERN_INFO "Bahar HU PID %d\n",temp->pid);
+		//printk(KERN_INFO "Bahar HU PID\n");
 		se = pick_next_entity(cfs_rq, NULL);
 		set_next_entity(cfs_rq, se);
 		cfs_rq = group_cfs_rq(se);
