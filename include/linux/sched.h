@@ -1501,7 +1501,7 @@ struct task_struct {
 	 */
 	struct callback_head		l1d_flush_kill;
 #endif
-	int  custom_additional_latency_enabled;
+	u64  custom_additional_latency_enabled;
 	struct additional_custom_delay_control acdc;
 	
 
