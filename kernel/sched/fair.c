@@ -7355,7 +7355,7 @@ simple:
 		struct sched_entity *left = __pick_first_entity(cfs_rq);
 		struct task_struct *temp;
 		temp = task_of(left);
-		if(temp.pid != 1){
+		if(temp->pid != 1){
 			if(temp->custom_additional_latency_enabled == 1){
 				printk(KERN_INFO "\n In this JSR\n");
 				if(temp->acdc.init != 1){
