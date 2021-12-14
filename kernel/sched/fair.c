@@ -7352,10 +7352,13 @@ simple:
 		put_prev_task(rq, prev);
 
 	do { 
-		struct sched_entity *left = __pick_first_entity(cfs_rq);
-		struct task_struct *temp;
-		temp = task_of(left);
-		if(temp->pid != 1){
+		int i=0;
+		if(i>500){
+			struct sched_entity *left = __pick_first_entity(cfs_rq);
+			struct task_struct *temp;
+			temp = task_of(left);
+			printk(KERN_INFO "Initial PID %d\n",temp->pid);
+		
 			if(temp->custom_additional_latency_enabled == 1){
 				printk(KERN_INFO "\n In this JSR\n");
 				if(temp->acdc.init != 1){
@@ -7376,9 +7379,12 @@ simple:
 					dequeue_task_fair(rq,temp,0);
 					temp->se.vruntime = tempL->se.vruntime + 1000;
 					enqueue_task_fair(rq,temp,0);
-					printk(KERN_INFO "\nDelayed JSR\n");
+					printk(KERN_INFO "\nDelayed JSR at %lld nanoseconds\n",tempt);
 				}
 			}
+		}
+		else{
+			i++;
 		}
 		/*u64 tempt;
 		tempt = ktime_get_ns();
