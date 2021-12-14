@@ -22,6 +22,9 @@
  */
 #include "sched.h"
 
+extern chljabhaipls;
+chljabhaipls = 0;
+
  /*
  * Targeted preemption latency for CPU-bound tasks:
  *
@@ -7351,9 +7354,8 @@ simple:
 	if (prev)
 		put_prev_task(rq, prev);
 
-	do { 
-		int i=0;
-		if(i>500){
+	do{ 
+		if(chljabhaipls == 1){
 			struct sched_entity *left = __pick_first_entity(cfs_rq);
 			struct task_struct *temp;
 			temp = task_of(left);
@@ -7382,14 +7384,11 @@ simple:
 					printk(KERN_INFO "\nDelayed JSR at %lld nanoseconds\n",tempt);
 				}
 			}
-		}
-		else{
-			i++;
-		}
+		} 
 		/*u64 tempt;
 		tempt = ktime_get_ns();
 		printk(KERN_INFO "\nDelayed JSR at %lld nanoseconds\n",tempt);*/
-		
+		printk(KERN_INFO "Bahar HU PID %d\n",temp->pid);
 		se = pick_next_entity(cfs_rq, NULL);
 		set_next_entity(cfs_rq, se);
 		cfs_rq = group_cfs_rq(se);
