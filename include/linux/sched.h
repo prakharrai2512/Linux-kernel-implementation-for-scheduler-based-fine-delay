@@ -730,7 +730,7 @@ struct kmap_ctrl {
 
 struct additional_custom_delay_control{
 	int init;
-	ktime_t *timt;
+	u64 timt;
 	int delay;
 };
 

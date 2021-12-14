@@ -7355,32 +7355,34 @@ simple:
 		struct sched_entity *left = __pick_first_entity(cfs_rq);
 		struct task_struct *temp;
 		temp = task_of(left);
-		/*if(temp->custom_additional_latency_enabled == 1){
-			printk(KERN_INFO "\n In this JSR\n");
-			if(temp->acdc.init != 1){
-				temp->acdc.init = 1;
-				printk(KERN_INFO "\n Intial mf'ize JSR\n");
-				//clock_gettime( CLOCK_MONOTONIC, (temp->acdc.timt));
-				*(temp->acdc.timt) = ktime_get();
+		if(temp.pid != 1){
+			if(temp->custom_additional_latency_enabled == 1){
+				printk(KERN_INFO "\n In this JSR\n");
+				if(temp->acdc.init != 1){
+					temp->acdc.init = 1;
+					printk(KERN_INFO "\n Intial mf'ize JSR\n");
+					//clock_gettime( CLOCK_MONOTONIC, (temp->acdc.timt));
+					(temp->acdc.timt) = ktime_get_ns();
+				}
+				u64 tempt;
+				u64 tempt2 = (temp->acdc.timt); 
+				//clock_gettime(CLOCK_MONOTONIC,tempt);
+				tempt = ktime_get_ns();
+				//if((tempt->tv64.nsec - (temp->acdc.timt)->tv_nsec) < temp->acdc.delay * 1000 ){
+				if(tempt - tempt2 < temp->acdc.delay * 1000){
+					struct sched_entity *LL = __pick_next_entity(left);
+					struct task_struct *tempL;
+					tempL = task_of(LL);
+					dequeue_task_fair(rq,temp,0);
+					temp->se.vruntime = tempL->se.vruntime + 1000;
+					enqueue_task_fair(rq,temp,0);
+					printk(KERN_INFO "\nDelayed JSR\n");
+				}
 			}
-			ktime_t tempt;
-			ktime_t tempt2 = *(temp->acdc.timt); 
-			//clock_gettime(CLOCK_MONOTONIC,tempt);
-			tempt = ktime_get();
-			//if((tempt->tv64.nsec - (temp->acdc.timt)->tv_nsec) < temp->acdc.delay * 1000 ){
-			if(ktime_to_ns(ktime_sub(tempt, tempt2)) < temp->acdc.delay * 1000){
-				struct sched_entity *LL = __pick_next_entity(left);
-				struct task_struct *tempL;
-				tempL = task_of(LL);
-				dequeue_task_fair(rq,temp,1);
-				temp->se.vruntime = tempL->se.vruntime + 100;
-				enqueue_task_fair(rq,temp,1);
-				printk(KERN_INFO "\nDelayed JSR\n");
-			}
-		}*/
-		u64 tempt;
+		}
+		/*u64 tempt;
 		tempt = ktime_get_ns();
-		printk(KERN_INFO "\nDelayed JSR at %lld nanoseconds\n",tempt);
+		printk(KERN_INFO "\nDelayed JSR at %lld nanoseconds\n",tempt);*/
 		
 		se = pick_next_entity(cfs_rq, NULL);
 		set_next_entity(cfs_rq, se);
